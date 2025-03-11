@@ -18,7 +18,8 @@ exports.getAllTrades = async (req, res) => {
 
 exports.getUserTrades = async (req, res) => {
   try {
-    const trades = await Trade.find({ userId: req.user.id }).populate('eventId', 'name odds status');
+    const {user} = req.body;
+    const trades = await Trade.find({ userId: user.id }).populate('eventId', 'name odds status');
     res.json(trades);
   } catch (error) {
     res.status(500).json({ message: error.message });
