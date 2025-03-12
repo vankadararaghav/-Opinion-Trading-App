@@ -23,3 +23,19 @@ exports.login = async (req, res) => {
   const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
   res.json({ token });
 };
+
+exports.updateAccountBalance = async (req,res) =>{
+    const { balance } = req.body
+    const user  = await User.findById(req.user.id)
+    user.balance = user.balance  + balance;
+    await user.save();
+    res.send({
+      message: "updated balance"
+    })
+}
+
+exports.userDetails = async (req,res)=>{
+   const user = await User.findById(req.user.id)
+   return res.status(200).send(user
+   )
+}
